@@ -1,0 +1,53 @@
+/* Algorithm Visualizer Styles */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap');
+
+:root {
+  --color-primary: #8b5cf6;
+  --color-secondary: #06b6d4;
+  --color-tertiary: #10b981;
+}
+
+body {
+  background-color: #090d16;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 36px 36px;
+}
+
+.bar {
+  transition: height 0.08s ease, background-color 0.08s ease;
+  border-radius: 4px 4px 0 0;
+}
+
+.bar-default {
+  background: linear-gradient(180deg, #a855f7 0%, #7e22ce 100%);
+}
+
+.bar-comparing {
+  background: #22d3ee !important;
+  box-shadow: 0 0 12px #22d3ee;
+}
+
+.bar-sorted {
+  background: #34d399 !important;
+  box-shadow: 0 0 10px #34d399;
+}
+
+.bar-pivot {
+  background: #fbbf24 !important;
+  box-shadow: 0 0 12px #fbbf24;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #090d16;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 9999px;
+}

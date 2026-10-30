@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Algorithm &amp; Logic Visualizer | Shaik Mohammed Jasim</title>
+  <meta name="description" content="Interactive algorithm visualizer featuring sorting algorithms (QuickSort, MergeSort, BubbleSort, InsertionSort) and search algorithms with step-by-step animations and audio feedback.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-[#090d16] text-slate-100 font-sans min-h-screen flex flex-col selection:bg-purple-600 selection:text-white">
+  
+  <!-- Navigation Header -->
+  <header class="w-full bg-slate-950/80 backdrop-blur-md border-b border-white/10 px-6 py-3.5 flex items-center justify-between sticky top-0 z-50">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-lg bg-purple-950/80 border border-purple-500/40 flex items-center justify-center text-cyan-400">
+        <span class="material-symbols-outlined text-[20px]">analytics</span>
+      </div>
+      <div>
+        <h1 class="text-base font-bold font-display tracking-tight text-white flex items-center gap-2">
+          Algorithm Visualizer
+          <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-950 text-cyan-400 border border-cyan-500/30">v1.2</span>
+        </h1>
+        <p class="text-[11px] font-mono text-slate-400">By Shaik Mohammed Jasim • SRM University</p>
+      </div>
+    </div>
+
+    <!-- Links & Sound Toggle -->
+    <div class="flex items-center gap-3">
+      <button id="sound-toggle-btn" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-white/10 hover:border-cyan-400 text-xs font-mono text-slate-300 flex items-center gap-1.5 transition-all">
+        <span class="material-symbols-outlined text-[16px] text-cyan-400">volume_up</span>
+        <span id="sound-status">Sound ON</span>
+      </button>
+      <a href="https://github.com/Jasim0019/algorithm-visualizer" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-mono text-slate-200 border border-white/10 flex items-center gap-1.5 transition-all">
+        <span class="material-symbols-outlined text-[16px]">code</span>
+        <span>GitHub</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Controls Strip -->
+  <section class="bg-slate-900/60 border-b border-white/10 px-6 py-4">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+      
+      <!-- Algorithm Selection -->
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="text-xs font-mono text-slate-400 mr-1 uppercase">Algorithm:</span>
+        <button data-algo="bubble" class="algo-btn px-3 py-1.5 rounded-lg text-xs font-mono font-semibold bg-purple-600 text-white shadow-lg shadow-purple-600/30 transition-all">Bubble Sort</button>
+        <button data-algo="quick" class="algo-btn px-3 py-1.5 rounded-lg text-xs font-mono font-semibold bg-slate-800 text-slate-300 hover:text-white transition-all">Quick Sort</button>
+        <button data-algo="merge" class="algo-btn px-3 py-1.5 rounded-lg text-xs font-mono font-semibold bg-slate-800 text-slate-300 hover:text-white transition-all">Merge Sort</button>
+        <button data-algo="insertion" class="algo-btn px-3 py-1.5 rounded-lg text-xs font-mono font-semibold bg-slate-800 text-slate-300 hover:text-white transition-all">Insertion Sort</button>
+        <button data-algo="binary" class="algo-btn px-3 py-1.5 rounded-lg text-xs font-mono font-semibold bg-slate-800 text-slate-300 hover:text-white transition-all">Binary Search</button>
+      </div>
+
+      <!-- Control Buttons & Sliders -->
+      <div class="flex flex-wrap items-center gap-4">
+        
+        <!-- Array Size Slider -->
+        <div class="flex items-center gap-2 text-xs font-mono text-slate-400">
+          <span>Size:</span>
+          <input type="range" id="size-slider" min="15" max="80" value="40" class="w-24 accent-purple-500 cursor-pointer">
+          <span id="size-label" class="text-white w-6">40</span>
+        </div>
+
+        <!-- Speed Slider -->
+        <div class="flex items-center gap-2 text-xs font-mono text-slate-400">
+          <span>Speed:</span>
+          <input type="range" id="speed-slider" min="5" max="100" value="50" class="w-24 accent-cyan-400 cursor-pointer">
+          <span id="speed-label" class="text-white w-6">50ms</span>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex items-center gap-2">
+          <button id="randomize-btn" class="px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-mono text-slate-200 border border-white/10 flex items-center gap-1.5 transition-all">
+            <span class="material-symbols-outlined text-[16px]">shuffle</span>
+            <span>Randomize</span>
+          </button>
+          
+          <button id="start-btn" class="px-4 py-1.5 rounded-lg bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-xs font-mono font-semibold text-white shadow-lg shadow-purple-500/25 flex items-center gap-1.5 transition-all active:scale-95">
+            <span class="material-symbols-outlined text-[16px]">play_arrow</span>
+            <span>Run Algorithm</span>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Main Canvas & Telemetry Display -->
+  <main class="max-w-7xl mx-auto w-full px-6 py-6 flex-1 flex flex-col gap-6">
+    
+    <!-- Telemetry Cards Bar -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div class="p-3.5 rounded-xl bg-slate-950/70 border border-white/10 flex flex-col">
+        <span class="text-[11px] font-mono text-slate-400 uppercase">Comparisons</span>
+        <span id="stat-comparisons" class="text-xl font-mono font-bold text-cyan-400">0</span>
+      </div>
+      <div class="p-3.5 rounded-xl bg-slate-950/70 border border-white/10 flex flex-col">
+        <span class="text-[11px] font-mono text-slate-400 uppercase">Array Accesses / Swaps</span>
+        <span id="stat-swaps" class="text-xl font-mono font-bold text-purple-400">0</span>
+      </div>
+      <div class="p-3.5 rounded-xl bg-slate-950/70 border border-white/10 flex flex-col">
+        <span class="text-[11px] font-mono text-slate-400 uppercase">Time Complexity</span>
+        <span id="stat-complexity" class="text-base font-mono font-semibold text-emerald-400">O(n²) Average</span>
+      </div>
+      <div class="p-3.5 rounded-xl bg-slate-950/70 border border-white/10 flex flex-col">
+        <span class="text-[11px] font-mono text-slate-400 uppercase">Space Complexity</span>
+        <span id="stat-space" class="text-base font-mono font-semibold text-amber-400">O(1) Auxiliary</span>
+      </div>
+    </div>
+
+    <!-- Visualizer Canvas Container -->
+    <div class="flex-1 min-h-[380px] rounded-2xl bg-slate-950/90 border border-white/10 p-6 flex flex-col justify-end relative overflow-hidden shadow-2xl">
+      <div id="visualizer-bars" class="w-full h-full flex items-end gap-1 px-2 pb-2">
+        <!-- Bars dynamically generated by app.js -->
+      </div>
+      
+      <!-- Status Legend -->
+      <div class="flex items-center gap-6 pt-4 border-t border-white/10 text-xs font-mono text-slate-400">
+        <span class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded bg-purple-500 inline-block"></span> Unsorted Elements
+        </span>
+        <span class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded bg-cyan-400 inline-block"></span> Active Comparison
+        </span>
+        <span class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded bg-emerald-400 inline-block"></span> Sorted &amp; Confirmed
+        </span>
+        <span class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded bg-amber-400 inline-block"></span> Pivot / Target
+        </span>
+      </div>
+    </div>
+
+    <!-- Algorithm Information Drawer -->
+    <div class="p-5 rounded-2xl bg-slate-900/60 border border-white/10">
+      <h2 id="algo-info-title" class="text-lg font-display font-bold text-white mb-1">Bubble Sort Algorithm</h2>
+      <p id="algo-info-desc" class="text-sm text-slate-300 leading-relaxed">
+        Bubble Sort is a simple comparison-based sorting algorithm that repeatedly steps through the input list element by element, comparing the current element with the one after it, swapping their values if needed.
+      </p>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="w-full bg-slate-950 border-t border-white/10 py-4 px-6 text-center text-xs font-mono text-slate-500">
+    Designed &amp; Developed by <a href="https://github.com/Jasim0019" target="_blank" class="text-cyan-400 hover:underline">Shaik Mohammed Jasim</a> • SRM University B.Tech CSE (AI &amp; ML) • 2025–2029
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
